@@ -36,7 +36,7 @@ build:macos-asan --dynamic_mode=off
 
 
 # Clang with libc++
-build:libc++ --config=clang
+# build:libc++ --config=clang
 build:libc++ --action_env=CXXFLAGS=-stdlib=libc++
 build:libc++ --action_env=LDFLAGS=-stdlib=libc++
 build:libc++ --action_env=BAZEL_CXXOPTS=-stdlib=libc++:-std=c++17
