@@ -1,15 +1,14 @@
-build --action_env=CXX
+build --action_env=CXX=g++
 
 build --experimental_strict_action_env=true
 build --host_force_python=PY3
-build --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
+build --action_env=BAZEL_LINKLIBS=-l%:libstdc++
 build --action_env=BAZEL_LINKOPTS=-lm
 build --enable_platform_specific_config
 
 build:linux --copt=-fPIC
 build:linux --cxxopt=-std=c++17
 build:linux --conlyopt=-fexceptions
-build:linux --fission=dbg,opt
 build:linux --features=per_object_debug_info
 
 build --define absl=1
