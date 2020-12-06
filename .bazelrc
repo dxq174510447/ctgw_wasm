@@ -1,8 +1,8 @@
-build --action_env=CXX=clang++
+build --action_env=CXX
 
 build --experimental_strict_action_env=true
 build --host_force_python=PY3
-build --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a:-L/usr/local/lib:-L/usr/local/include
+build --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
 build --action_env=BAZEL_LINKOPTS=-lm
 build --enable_platform_specific_config
 
@@ -41,5 +41,5 @@ build:libc++ --action_env=CXXFLAGS=-stdlib=libc++
 build:libc++ --action_env=LDFLAGS=-stdlib=libc++
 build:libc++ --action_env=BAZEL_CXXOPTS=-stdlib=libc++:-std=c++17
 build:libc++ --action_env=BAZEL_LINKLIBS=-l%:libc++.a:-l%:libc++abi.a:-l
-build:libc++ --action_env=BAZEL_LINKOPTS=-lstdc++:-lm:-l/usr/local/lib:-l/usr/local/include
+build:libc++ --action_env=BAZEL_LINKOPTS=-lstdc++:-lm
 build:libc++ --define force_libcpp=enabled
