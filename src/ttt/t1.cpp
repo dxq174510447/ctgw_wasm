@@ -5,10 +5,12 @@
  *      Author: dengxiaoqian
  */
 #include "t1.h"
+#include <string>
 
 
 struct User2{
 	int id;
+	std::string name;
 };
 
 

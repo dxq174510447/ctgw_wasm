@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <string>
 #include "ttt/t1.h"
 using namespace std;
 
@@ -15,12 +16,13 @@ User1 getUserByToken(int token);
 int main() {
 	cout << "!!!Hello World111!!!" << endl; // prints !!!Hello World!!!
 	User1 u2 = getUserByToken(123);
-	cout << u2.id << endl;
+	cout << u2.name << endl;
 	return 0;
 }
 
 User1 getUserByToken(int token){
-	User1 u2 = {token};
+	string a = "123";
+	User1 u2 = {token,"345"+std::to_string(token)};
 //	User1 u1 = User1(token);
 	return u2;
 }
