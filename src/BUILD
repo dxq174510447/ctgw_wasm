@@ -3,7 +3,9 @@ cc_binary(
     name = "wasm",
     srcs = ["seclang.cpp"],
     deps = [
+    	"@redis//:cpp_redis",
     	":t1"
+    	
     ],
     visibility = ["//visibility:public"]
 )
