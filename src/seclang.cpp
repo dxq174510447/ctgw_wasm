@@ -12,7 +12,6 @@
 #include "sw/redis++/redis++.h"
 #include "ttt/t1.h"
 using namespace std;
-using namespace sw::redis;
 User1 getUserByToken(int token);
 
 int main() {
@@ -24,9 +23,9 @@ int main() {
 
 User1 getUserByToken(int token){
 	string a = "123";
-	User1 u2 = {token,"000"+std::to_string(token)};
+	User1 u2 = {token,"000111"+std::to_string(token)};
 
-	auto redis = Redis("tcp://47.105.61.26:6379");
+	auto redis = sw::redis::Redis("tcp://47.105.61.26:6379");
 	redis.auth("gsta2012");
 
 	auto val = redis.get("hello");
