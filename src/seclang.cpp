@@ -8,10 +8,11 @@
 
 #include <iostream>
 #include <string>
-#include <cpp_redis/cpp_redis>
+#include <unordered_map>
+#include "sw/redis++/redis++.h"
 #include "ttt/t1.h"
 using namespace std;
-
+using namespace sw::redis;
 User1 getUserByToken(int token);
 
 int main() {
@@ -23,31 +24,30 @@ int main() {
 
 User1 getUserByToken(int token){
 	string a = "123";
-	User1 u2 = {token,"345"+std::to_string(token)};
+	User1 u2 = {token,"000"+std::to_string(token)};
 
-	cpp_redis::client client;
+	auto redis = Redis("tcp://47.105.61.26:6379");
+	redis.auth("gsta2012");
 
-	client.connect("47.105.61.26", 6379);
-	client.auth("gsta2012");
-//	client.set("hello", "12345");
-//	std::future<cpp_redis::reply> r = client.get("hello");
-//	client.sync_commit();
-//	string r1 = r.get().as_string();
-//	cout << r1 << endl;
-//
-	std::future<cpp_redis::reply> r2= client.get("hello");
-	client.sync_commit();
-	if(r2.get().is_null()){
-		cout << "null" << endl;
-	}
-	else{
-		cout << "123" << endl;
-		cout << r2.get() << endl;
-		cout << "456" << endl;
-	}
+	auto val = redis.get("hello");
 
-	cout << "789" << endl;
+	 cout << "123" << endl;
+	 if (val) {
+		std::cout << *val << std::endl;
+	 }
+	 else{
+		 std::cout << "null" << std::endl;
+	 }
+	 std::cout << "789" << std::endl;
 
+	 std::unordered_map<std::string, std::string> m1 = {};
+	 redis.hgetall("tt", std::inserter(m1, m1.begin()));
+	 auto iter = m1.begin();
+	 while (iter!= m1.end())
+	     {
+	         cout << iter->first << "," << iter->second << endl;
+	         ++iter;
+	     }
 //	std::future<cpp_redis::reply> r = client.hgetall("tt1");
 //	client.sync_commit();
 //	if(r.get().is_null()){
