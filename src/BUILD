@@ -1,19 +1,24 @@
 
-load(
-    "@envoy//bazel:envoy_build_system.bzl",
-    "envoy_package",
-)
-load("@envoy//bazel/wasm:wasm.bzl", "envoy_wasm_cc_binary")
+#load(
+#    "@envoy//bazel:repositories.bzl",
+#    "_proxy_wasm_cpp_sdk",
+#)
 
-envoy_package()
+# _proxy_wasm_cpp_sdk();
 
-envoy_wasm_cc_binary(
-    name = "envoy_filter_http_wasm_example.wasm",
-    srcs = ["ctgw.cpp"],
-    deps = [
-        "@proxy_wasm_cpp_sdk//:proxy_wasm_intrinsics",
-    ],
-)
+
+#load("@envoy//bazel/wasm:wasm.bzl", "envoy_wasm_cc_binary")
+
+
+#envoy_wasm_cc_binary(
+#    name = "envoy_filter_http_wasm_example.wasm",
+#    srcs = ["ctgw.cpp"],
+#    deps = [
+#        "@proxy_wasm_cpp_sdk//:proxy_wasm_intrinsics",
+#    ],
+#)
+
+
 
 cc_binary(
     name = "wasm",

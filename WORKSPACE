@@ -1,5 +1,5 @@
 
-# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+#load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 
 
@@ -66,26 +66,17 @@ cc_library(
 """
 )
 
+#http_archive(
+#    name = "envoy",
+#    strip_prefix = "envoy-31e225b628a316322a0bcbd237a143eade995d22",
+#    url = "https://wx.dev.chelizitech.com/files/envoy-31e225b628a316322a0bcbd237a143eade995d22.tar.gz",
+#)
 
-# 1. Determine SHA256 `wget https://github.com/envoyproxy/envoy/archive/$COMMIT.tar.gz && sha256sum $COMMIT.tar.gz`
-# 2. Update .bazelversion, envoy.bazelrc and .bazelrc if needed.
-#
-# Note: this is needed by release builder to resolve envoy dep sha to tag.
-# Commit date: 2020-11-20
-ENVOY_SHA = "31e225b628a316322a0bcbd237a143eade995d22"
 
-ENVOY_SHA256 = "079516e413c07e2ca19374c9baa1cafe7c6ee1b160e74c6427b9fee0709fa953"
+#http_archive(
+#    name = "proxy_wasm_cpp_sdk",
+#    strip_prefix = "proxy-wasm-cpp-sdk-b5ff880ed13d93dde9faf53d0aa05b216cc60b86",
+#    url = "https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/archive/b5ff880ed13d93dde9faf53d0aa05b216cc60b86.tar.gz",
+#)
 
-ENVOY_ORG = "envoyproxy"
-
-ENVOY_REPO = "envoy"
-
-# To override with local envoy, just pass `--override_repository=envoy=/PATH/TO/ENVOY` to Bazel or
-# persist the option in `user.bazelrc`.
-http_archive(
-    name = "envoy",
-    sha256 = ENVOY_SHA256,
-    strip_prefix = ENVOY_REPO + "-" + ENVOY_SHA,
-    url = "https://github.com/" + ENVOY_ORG + "/" + ENVOY_REPO + "/archive/" + ENVOY_SHA + ".tar.gz",
-)
 
