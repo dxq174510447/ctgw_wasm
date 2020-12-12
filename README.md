@@ -22,3 +22,14 @@ docker build -t wasmsdk:v2 -f Dockerfile-sdk .
 ```sh
 docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
 ```
+
+3.	部署代码机器kubectl命令，让其可直接连接k8s环境
+
+
+4. 将wasm文件放到configmap中
+
+```sh
+kubectl create configmap ct-wasm --from-file=myproject.wasm --namespace=istio-system
+```
+
+5. 将
