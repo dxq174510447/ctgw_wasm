@@ -29,10 +29,23 @@ docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
 
 
 
-4. 将wasm文件放到configmap中
+4. 构建包含wasm文件的envoy镜像
 
 ```sh
-kubectl create configmap ct-wasm --from-file=myproject.wasm --namespace=istio-system
+docker build -t cproxyv2:1.7.4  .
+docker tag cproxyv2:1.7.4 registry.dev.chelizitech.com/saas/cproxyv2:1.7.4
+docker push registry.dev.chelizitech.com/saas/cproxyv2:1.7.4
 ```
 
-5. 将
+5. 修改istio default的镜像默认值  
+/root/istio/istio-1.7.4/manifests/profiles/default.yaml的.Values.global.proxy.image改成registry.dev.chelizitech.com/saas/cproxyv2:1.7.4    
+
+位于istioctl install --manifests ~/istio/istio-1.7.4/manifests
+
+6. 测试
+
+```sh
+curl -iv  -XGET http://10.9.40.47:30171/productpage
+
+
+```
