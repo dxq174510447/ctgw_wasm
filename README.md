@@ -17,13 +17,16 @@ Building...
 docker build -t wasmsdk:v2 -f Dockerfile-sdk .
 ```
 
-2.	下载项目，通过编译命令生成wasm文件
+2.	部署代码机器kubectl命令，让其可直接连接k8s环境
+
+
+3.	下载项目，通过编译命令生成wasm文件
 
 ```sh
 docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
 ```
 
-3.	部署代码机器kubectl命令，让其可直接连接k8s环境
+
 
 
 4. 将wasm文件放到configmap中
