@@ -38,14 +38,47 @@ docker push registry.dev.chelizitech.com/saas/cproxyv2:1.7.4
 ```
 
 5. 修改istio default的镜像默认值  
-/root/istio/istio-1.7.4/manifests/profiles/default.yaml的.Values.global.proxy.image改成registry.dev.chelizitech.com/saas/cproxyv2:1.7.4    
+/root/istio/istio-1.7.4/manifests/profiles/default.yaml的.Values.global.proxy.image改成registry.dev.chelizitech.com/saas/cproxyv2:1.7.4，顺便把日志级别改成info
 
-位于istioctl install --manifests ~/istio/istio-1.7.4/manifests
+位于istioctl install --manifests ~/istio/istio-1.7.4/manifests,
 
-6. 测试
+6. 安装
 
 ```sh
-curl -iv  -XGET http://10.9.40.47:30171/productpage
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: details-v1-myfilter
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+      listener:
+        filterChain:
+          filter:
+            name: envoy.http_connection_manager
+            subFilter:
+              name: envoy.router
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        config:
+          config:
+            configuration: tomorrow
+            name: myfilter
+            vmConfig:
+              code:
+                local:
+                  filename: /lib/ctgw.wasm
+              runtime: envoy.wasm.runtime.v8
+        name: envoy.filters.http.wasm
+  workloadSelector:
+    labels:
+      app: istio-ingressgateway
+EOF
 
 
 ```

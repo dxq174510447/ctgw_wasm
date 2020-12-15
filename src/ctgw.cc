@@ -13,7 +13,7 @@ public:
 static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleContext));
 
 FilterHeadersStatus ExampleContext::onRequestHeaders(uint32_t headers, bool end_of_stream) {
-  logInfo(std::string("onRequestHeaders ") + std::to_string(id()));
+	LOG_DEBUG(std::string("onRequestHeaders ") + std::to_string(id()));
   auto path = getRequestHeader(":path");
   logInfo(std::string("header path ") + std::string(path->view()));
   return FilterHeadersStatus::Continue;
