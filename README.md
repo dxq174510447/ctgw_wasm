@@ -32,15 +32,14 @@ docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
 4. 构建包含wasm文件的envoy镜像
 
 ```sh
-docker build -t cproxyv2:1.7.4  .
-docker tag cproxyv2:1.7.4 registry.dev.chelizitech.com/saas/cproxyv2:1.7.4
-docker push registry.dev.chelizitech.com/saas/cproxyv2:1.7.4
+docker build -t registry.dev.chelizitech.com/saas/cproxyv2:1.7.6  .
+docker push registry.dev.chelizitech.com/saas/cproxyv2:1.7.6
 ```
 
 5. 修改istio default的镜像默认值  
 /root/istio/istio-1.7.4/manifests/profiles/default.yaml的.Values.global.proxy.image改成registry.dev.chelizitech.com/saas/cproxyv2:1.7.4，顺便把日志级别改成info
 
-位于istioctl install --manifests ~/istio/istio-1.7.4/manifests,
+位于istioctl install --manifests /root/istio/istio-1.8.1/manifests,
 
 6. 安装
 
