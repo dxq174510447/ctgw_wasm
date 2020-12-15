@@ -45,40 +45,48 @@ docker push registry.dev.chelizitech.com/saas/cproxyv2:1.7.4
 6. 安装
 
 ```sh
+
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: details-v1-myfilter
+  name: ctgw-filter1
   namespace: istio-system
 spec:
   configPatches:
   - applyTo: HTTP_FILTER
     match:
-      context: SIDECAR_INBOUND
+      context: GATEWAY
       listener:
         filterChain:
           filter:
-            name: envoy.http_connection_manager
+            name: envoy.filters.network.http_connection_manager
             subFilter:
-              name: envoy.router
+              name: envoy.filters.http.router
     patch:
       operation: INSERT_BEFORE
       value:
-        config:
-          config:
-            configuration: tomorrow
-            name: myfilter
-            vmConfig:
-              code:
-                local:
-                  filename: /lib/ctgw.wasm
-              runtime: envoy.wasm.runtime.v8
         name: envoy.filters.http.wasm
-  workloadSelector:
-    labels:
-      app: istio-ingressgateway
+        typed_config:
+          '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+          type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+          value:
+            config:
+              name: ctgw_plugin
+              configuration: 
+                "@type": "type.googleapis.com/google.protobuf.StringValue"
+                value: |
+                  {}
+              vm_config:
+                runtime: envoy.wasm.runtime.v8
+                code:
+                  local:
+                    filename: lib/ctgw.wasm
 EOF
 
+```
 
+
+```
+istioctl proxy-config listener istio-ingressgateway-89dcb5fd6-sn44n  -n=istio-system --port 8080 --type HTTP -o json
 ```
