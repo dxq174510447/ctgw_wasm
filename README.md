@@ -32,12 +32,12 @@ docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
 4. 构建包含wasm文件的envoy镜像
 
 ```sh
-docker build -t registry.dev.chelizitech.com/saas/cproxyv2:1.7.6  .
-docker push registry.dev.chelizitech.com/saas/cproxyv2:1.7.6
+docker build -t registry.dev.chelizitech.com/saas/cproxyv2:1.8.2  .
+docker push registry.dev.chelizitech.com/saas/cproxyv2:1.8.2
 ```
 
 5. 修改istio default的镜像默认值  
-/root/istio/istio-1.7.4/manifests/profiles/default.yaml的.Values.global.proxy.image改成registry.dev.chelizitech.com/saas/cproxyv2:1.7.4，顺便把日志级别改成info
+/root/istio/istio-1.8.1/manifests/profiles/default.yaml的.Values.global.proxy.image改成registry.dev.chelizitech.com/saas/cproxyv2:1.7.4，顺便把日志级别改成info
 
 位于istioctl install --manifests /root/istio/istio-1.8.1/manifests,
 
@@ -87,5 +87,31 @@ EOF
 
 
 ```
-istioctl proxy-config listener istio-ingressgateway-89dcb5fd6-sn44n  -n=istio-system --port 8080 --type HTTP -o json
+istioctl proxy-config listener istio-ingressgateway-999b5d4c9-xpvdx  -n=istio-system --port 8080 --type HTTP -o json
+
+curl -iv  -XGET http://10.9.40.47:31973/productpage -H "Authorization: Bearer $token1"
+```
+
+
+## 额外配置
+
+jwt.yaml
+```sh
+
+kubectl apply -f - <<EOF
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: "jwt-example"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: "platform"
+    jwks: |
+      {"keys":[{"kty":"RSA","e":"AQAB","kid":"v1","n":"ll1OO9BmbOh3KWgp7U7hgRdvuvloJRqDM4tK5dY7z9hbIor8OdbGDdf0z-w2Pt0BfUe-tme31xg61kgFaiFcAJZ7rtGGnBXCUYBTn7tOWlYn38knpQSVMjh8d_HDY4GS8QTmlhjZ4ZIE1XmmGAyMP4FxWRjL2Lc4QAmWsh4N7zE"}]}
+EOF
+
 ```

@@ -1,6 +1,8 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <fstream>
+#include <iostream>
 
 #include "proxy_wasm_intrinsics.h"
 
@@ -30,8 +32,11 @@ static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleCon
                                                       ROOT_FACTORY(ExampleRootContext),
                                                       "my_root_id");
 
+static std::ofstream outputfile;
+
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");
+  outputfile.open("/home/istio-proxy/out.log");
   return true;
 }
 
@@ -52,6 +57,9 @@ FilterHeadersStatus ExampleContext::onRequestHeaders(uint32_t, bool) {
   LOG_INFO(std::string("headers: ") + std::to_string(pairs.size()));
   for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
+    std::string m = std::string(p.first) + std::string(" -> ") + std::string(p.second);
+    outputfile << m;
+    std::cout << m << std::endl;
   }
   return FilterHeadersStatus::Continue;
 }
@@ -63,6 +71,9 @@ FilterHeadersStatus ExampleContext::onResponseHeaders(uint32_t, bool) {
   LOG_INFO(std::string("headers: ") + std::to_string(pairs.size()));
   for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
+    std::string m = std::string(p.first) + std::string(" -> ") + std::string(p.second);
+    outputfile << m;
+    std::cout << m << std::endl;
   }
   addResponseHeader("X-Wasm-custom", "FOO");
   replaceResponseHeader("content-type", "text/plain; charset=utf-8");
