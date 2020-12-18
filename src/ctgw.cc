@@ -41,7 +41,7 @@ bool ExampleRootContext::onStart(size_t) {
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
-  outputfile.open("/var/lib/istio/data/out.log");
+//  outputfile.open("/var/lib/istio/data/out.log");
   LOG_TRACE("onConfigure");
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
