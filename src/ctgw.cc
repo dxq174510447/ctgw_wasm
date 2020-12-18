@@ -75,7 +75,7 @@ FilterHeadersStatus ExampleContext::onResponseHeaders(uint32_t, bool) {
   for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
     std::string m = std::string(p.first) + std::string(" -> ") + std::string(p.second);
-    outputfile << m << std::endl ;
+//    outputfile << m << std::endl ;
     std::cout << m << std::endl;
   }
   addResponseHeader("X-Wasm-custom", "FOO");
