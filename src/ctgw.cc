@@ -31,8 +31,9 @@ public:
 static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleContext),
                                                       ROOT_FACTORY(ExampleRootContext),
                                                       "my_root_id");
-
 static std::ofstream outputfile;
+
+
 
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");

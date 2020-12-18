@@ -32,8 +32,8 @@ docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
 4. 构建包含wasm文件的envoy镜像
 
 ```sh
-docker build -t registry.dev.chelizitech.com/saas/cproxyv2:1.8.2  .
-docker push registry.dev.chelizitech.com/saas/cproxyv2:1.8.2
+docker build -t registry.dev.chelizitech.com/saas/cproxyv2:1.8.5  .
+docker push registry.dev.chelizitech.com/saas/cproxyv2:1.8.5
 ```
 
 5. 修改istio default的镜像默认值  
