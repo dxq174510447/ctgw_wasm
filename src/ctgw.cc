@@ -37,7 +37,7 @@ static std::ofstream outputfile;
 
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");
-  outputfile.open("/home/istio-proxy/out.log");
+  outputfile.open("/var/lib/istio/data/out.log");
   return true;
 }
 
