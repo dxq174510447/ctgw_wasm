@@ -71,13 +71,15 @@ spec:
           type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
           value:
             config:
-              name: ctgw_plugin
+              name: my_plugin
+              root_id: my_root_id
               configuration: 
                 "@type": "type.googleapis.com/google.protobuf.StringValue"
                 value: |
                   {}
               vm_config:
                 runtime: envoy.wasm.runtime.v8
+                configuration: {}
                 code:
                   local:
                     filename: /home/istio-proxy/ctgw.wasm
