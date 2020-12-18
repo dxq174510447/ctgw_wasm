@@ -1,10 +1,12 @@
+// NOLINT(namespace-envoy)
 #include <string>
 #include <string_view>
 #include <unordered_map>
 #include <fstream>
-#include <iostream>
 
 #include "proxy_wasm_intrinsics.h"
+
+static std::ofstream outputfile;
 
 class ExampleRootContext : public RootContext {
 public:
@@ -31,8 +33,6 @@ public:
 static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleContext),
                                                       ROOT_FACTORY(ExampleRootContext),
                                                       "my_root_id");
-static std::ofstream outputfile;
-
 
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");
@@ -41,9 +41,8 @@ bool ExampleRootContext::onStart(size_t) {
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
-	outputfile.open("/home/istio-proxy/out.log");
+  outputfile.open("/home/istio-proxy/out.log");
   LOG_TRACE("onConfigure");
-  outputfile << "onConfigure log---" << std::endl ;
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
@@ -59,9 +58,6 @@ FilterHeadersStatus ExampleContext::onRequestHeaders(uint32_t, bool) {
   LOG_INFO(std::string("headers: ") + std::to_string(pairs.size()));
   for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
-    std::string m = std::string(p.first) + std::string(" -> ") + std::string(p.second);
-    outputfile << m << std::endl ;
-    std::cout << m << std::endl;
   }
   return FilterHeadersStatus::Continue;
 }
@@ -73,13 +69,9 @@ FilterHeadersStatus ExampleContext::onResponseHeaders(uint32_t, bool) {
   LOG_INFO(std::string("headers: ") + std::to_string(pairs.size()));
   for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
-    std::string m = std::string(p.first) + std::string(" -> ") + std::string(p.second);
-//    outputfile << m << std::endl ;
-    std::cout << m << std::endl;
   }
-  addResponseHeader("X-Wasm-custom", "FOO");
-  replaceResponseHeader("content-type", "text/plain; charset=utf-8");
-  removeResponseHeader("content-length");
+  addResponseHeader("newheader", "newheadervalue");
+  replaceResponseHeader("location", "envoy-wasm");
   return FilterHeadersStatus::Continue;
 }
 
@@ -92,7 +84,7 @@ FilterDataStatus ExampleContext::onRequestBody(size_t body_buffer_length,
 
 FilterDataStatus ExampleContext::onResponseBody(size_t /* body_buffer_length */,
                                                 bool /* end_of_stream */) {
-  setBuffer(WasmBufferType::HttpResponseBody, 0, 12, "Hello, world");
+  setBuffer(WasmBufferType::HttpResponseBody, 0, 3, "foo");
   return FilterDataStatus::Continue;
 }
 
