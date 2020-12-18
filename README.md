@@ -80,7 +80,7 @@ spec:
                 runtime: envoy.wasm.runtime.v8
                 code:
                   local:
-                    filename: /var/log/envoy/ctgw.wasm
+                    filename: /home/istio-proxy/ctgw.wasm
 EOF
 
 ```
