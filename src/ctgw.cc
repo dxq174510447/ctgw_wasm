@@ -34,15 +34,14 @@ static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleCon
 static std::ofstream outputfile;
 
 
-
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");
-  outputfile.open("/var/log/envoy/out.log");
   outputfile << "onStart log---" << std::endl ;
   return true;
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
+	outputfile.open("/home/istio-proxy/out.log");
   LOG_TRACE("onConfigure");
   outputfile << "onConfigure log---" << std::endl ;
   proxy_set_tick_period_milliseconds(1000); // 1 sec
