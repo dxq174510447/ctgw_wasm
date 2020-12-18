@@ -44,7 +44,7 @@ static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleCon
                                                       "my_root_id");
 
 std::ofstream ExampleRootContext::getLog(){
-	return this->outputfile;
+	return outputfile;
 }
 
 bool ExampleRootContext::onStart(size_t) {
@@ -57,7 +57,7 @@ bool ExampleRootContext::onStart(size_t) {
 bool ExampleRootContext::onConfigure(size_t) {
 //  outputfile.open("/var/lib/istio/data/out.log");
   LOG_TRACE("onConfigure");
-  this->getLog() << "onConfigure log---" << std::endl ;
+  getLog() << "onConfigure log---" << std::endl ;
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
@@ -65,7 +65,7 @@ bool ExampleRootContext::onConfigure(size_t) {
 void ExampleRootContext::onTick() { LOG_TRACE("onTick"); }
 
 std::ofstream ExampleContext::getLog(){
-	return this->root->getLog();
+	return root->getLog();
 }
 
 void ExampleContext::onCreate() { LOG_WARN(std::string("onCreate " + std::to_string(id()))); }
