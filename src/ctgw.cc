@@ -26,7 +26,7 @@ private:
 	ExampleRootContext* root;
 public:
   explicit ExampleContext(uint32_t id, RootContext* root) : Context(id, root) {
-	  this->root = root;
+	  this->root = (ExampleRootContext *)root;
   }
 
   void onCreate() override;
