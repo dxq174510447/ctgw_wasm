@@ -5,7 +5,7 @@ COPY ./ctgw.wasm /lib/ctgw.wasm
 
 RUN mkdir -p /var/log/envoy \
    && chown istio-proxy:istio-proxy /var/log/envoy \
-   && chmod 777 /var/log/envoy
+   && chmod 666 /var/log/envoy
    
 COPY ./ctgw.wasm /var/log/envoy/ctgw.wasm
 
