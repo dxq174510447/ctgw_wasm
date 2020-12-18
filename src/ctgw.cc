@@ -48,7 +48,7 @@ std::ofstream ExampleRootContext::getLog(){
 }
 
 bool ExampleRootContext::onStart(size_t) {
-  LOG_TRACE("onStart");
+  LOG_INFO("onStart");
  // outputfile << "onStart log---" << std::endl ;
  // rt.outputfile << "onStart log---" << std::endl ;
   return true;
@@ -56,7 +56,7 @@ bool ExampleRootContext::onStart(size_t) {
 
 bool ExampleRootContext::onConfigure(size_t) {
 //  outputfile.open("/var/lib/istio/data/out.log");
-  LOG_TRACE("onConfigure");
+	LOG_INFO("onConfigure");
   getLog() << "onConfigure log---" << std::endl ;
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
