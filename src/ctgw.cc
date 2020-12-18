@@ -31,20 +31,20 @@ public:
 static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleContext),
                                                       ROOT_FACTORY(ExampleRootContext),
                                                       "my_root_id");
-static std::ofstream outputfile;
+//static std::ofstream outputfile;
 
 
 
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");
-  outputfile.open("/var/lib/istio/data/out.log");
-  outputfile << "onStart log---" << std::endl ;
+//  outputfile.open("/var/lib/istio/data/out.log");
+//  outputfile << "onStart log---" << std::endl ;
   return true;
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
   LOG_TRACE("onConfigure");
-  outputfile << "onConfigure log---" << std::endl ;
+//  outputfile << "onConfigure log---" << std::endl ;
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
@@ -61,7 +61,7 @@ FilterHeadersStatus ExampleContext::onRequestHeaders(uint32_t, bool) {
   for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
     std::string m = std::string(p.first) + std::string(" -> ") + std::string(p.second);
-    outputfile << m << std::endl ;
+//    outputfile << m << std::endl ;
     std::cout << m << std::endl;
   }
   return FilterHeadersStatus::Continue;
