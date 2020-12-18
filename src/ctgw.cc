@@ -36,12 +36,12 @@ static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleCon
 
 bool ExampleRootContext::onStart(size_t) {
   LOG_TRACE("onStart");
-  outputfile << "onStart log---" << std::endl ;
+ // outputfile << "onStart log---" << std::endl ;
   return true;
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
-  outputfile.open("/home/istio-proxy/out.log");
+  outputfile.open("/var/lib/istio/data/out.log");
   LOG_TRACE("onConfigure");
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
