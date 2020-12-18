@@ -1,7 +1,7 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
-#include <fstream>
+//#include <fstream>
 #include <iostream>
 
 #include "proxy_wasm_intrinsics.h"
