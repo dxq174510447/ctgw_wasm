@@ -80,7 +80,7 @@ spec:
                 runtime: envoy.wasm.runtime.v8
                 code:
                   local:
-                    filename: lib/ctgw.wasm
+                    filename: /var/log/envoy/ctgw.wasm
 EOF
 
 ```
