@@ -1,18 +1,4 @@
-// Copyright 2016-2020 Envoy Project Authors
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
+// NOLINT(namespace-envoy)
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -30,7 +16,7 @@ public:
 
 class ExampleContext : public Context {
 public:
-  explicit ExampleContext(uint32_t id, RootContext *root) : Context(id, root) {}
+  explicit ExampleContext(uint32_t id, RootContext* root) : Context(id, root) {}
 
   void onCreate() override;
   FilterHeadersStatus onRequestHeaders(uint32_t headers, bool end_of_stream) override;
@@ -65,7 +51,7 @@ FilterHeadersStatus ExampleContext::onRequestHeaders(uint32_t, bool) {
   auto result = getRequestHeaderPairs();
   auto pairs = result->pairs();
   LOG_INFO(std::string("headers: ") + std::to_string(pairs.size()));
-  for (auto &p : pairs) {
+  for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
   }
   return FilterHeadersStatus::Continue;
@@ -76,12 +62,11 @@ FilterHeadersStatus ExampleContext::onResponseHeaders(uint32_t, bool) {
   auto result = getResponseHeaderPairs();
   auto pairs = result->pairs();
   LOG_INFO(std::string("headers: ") + std::to_string(pairs.size()));
-  for (auto &p : pairs) {
+  for (auto& p : pairs) {
     LOG_INFO(std::string(p.first) + std::string(" -> ") + std::string(p.second));
   }
-  addResponseHeader("X-Wasm-custom", "FOO");
-  replaceResponseHeader("content-type", "text/plain; charset=utf-8");
-  removeResponseHeader("content-length");
+  addResponseHeader("newheader", "newheadervalue");
+  replaceResponseHeader("location", "envoy-wasm");
   return FilterHeadersStatus::Continue;
 }
 
@@ -94,7 +79,7 @@ FilterDataStatus ExampleContext::onRequestBody(size_t body_buffer_length,
 
 FilterDataStatus ExampleContext::onResponseBody(size_t /* body_buffer_length */,
                                                 bool /* end_of_stream */) {
-  setBuffer(WasmBufferType::HttpResponseBody, 0, 12, "Hello, world");
+  setBuffer(WasmBufferType::HttpResponseBody, 0, 3, "foo");
   return FilterDataStatus::Continue;
 }
 
