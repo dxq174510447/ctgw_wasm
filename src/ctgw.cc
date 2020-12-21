@@ -2,34 +2,21 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
-#include <fstream>
 
 #include "proxy_wasm_intrinsics.h"
 
-
 class ExampleRootContext : public RootContext {
-private:
-	std::ofstream* outputfile;
 public:
-  explicit ExampleRootContext(uint32_t id, std::string_view root_id) : RootContext(id, root_id) {
-	  std::ofstream op;
-	  op.open("/var/lib/istio/data/out.log");
-	  outputfile = &op;
-  }
+  explicit ExampleRootContext(uint32_t id, std::string_view root_id) : RootContext(id, root_id) {}
 
   bool onStart(size_t) override;
   bool onConfigure(size_t) override;
   void onTick() override;
-  std::ofstream* getLog();
 };
 
 class ExampleContext : public Context {
-private:
-	ExampleRootContext* root;
 public:
-  explicit ExampleContext(uint32_t id, RootContext* root) : Context(id, root) {
-	  this->root = (ExampleRootContext *)root;
-  }
+  explicit ExampleContext(uint32_t id, RootContext* root) : Context(id, root) {}
 
   void onCreate() override;
   FilterHeadersStatus onRequestHeaders(uint32_t headers, bool end_of_stream) override;
@@ -39,34 +26,23 @@ public:
   void onDone() override;
   void onLog() override;
   void onDelete() override;
-  std::ofstream* getLog();
 };
 static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleContext),
                                                       ROOT_FACTORY(ExampleRootContext),
                                                       "my_root_id");
 
-std::ofstream* ExampleRootContext::getLog(){
-	return outputfile;
-}
-
 bool ExampleRootContext::onStart(size_t) {
-  LOG_INFO("onStart");
+  LOG_TRACE("onStart");
   return true;
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
-//  outputfile.open("/var/lib/istio/data/out.log");
-  LOG_INFO("onConfigure");
-  *(getLog()) << "onConfigure log---" << std::endl ;
+  LOG_TRACE("onConfigure");
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
 
 void ExampleRootContext::onTick() { LOG_TRACE("onTick"); }
-
-std::ofstream* ExampleContext::getLog(){
-	return root->getLog();
-}
 
 void ExampleContext::onCreate() { LOG_WARN(std::string("onCreate " + std::to_string(id()))); }
 
