@@ -12,7 +12,7 @@ public:
   bool onConfigure(size_t) override;
   void onTick() override;
 
-  void onConfigure(std::unique_ptr<WasmData> configuration) override;
+  void onConfigure(std::unique_ptr<WasmData> configuration);
 };
 
 class ExampleContext : public Context {
