@@ -97,7 +97,8 @@ curl -iv  -XGET http://10.9.40.47:31973/productpage -H "Authorization: Bearer $t
 
 ## 额外配置
 
-jwt.yaml
+jwt.yaml 
+
 ```sh
 
 kubectl apply -f - <<EOF
@@ -117,3 +118,8 @@ spec:
 EOF
 
 ```
+
+## 问题
+registry.dev.chelizitech.com/saas/cproxyv2:202112211721
+使用 envoy-9a56af58541f322d8bb4b445e5a9290d068da4b3 examle编译
+

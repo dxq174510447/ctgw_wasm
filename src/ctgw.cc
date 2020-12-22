@@ -8,10 +8,11 @@
 class ExampleRootContext : public RootContext {
 public:
   explicit ExampleRootContext(uint32_t id, std::string_view root_id) : RootContext(id, root_id) {}
-
   bool onStart(size_t) override;
   bool onConfigure(size_t) override;
   void onTick() override;
+
+  void onConfigure(std::unique_ptr<WasmData> configuration) override;
 };
 
 class ExampleContext : public Context {
@@ -40,6 +41,11 @@ bool ExampleRootContext::onConfigure(size_t) {
   LOG_TRACE("onConfigure");
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
+}
+void ExampleRootContext::onConfigure(std::unique_ptr<WasmData> configuration){
+	WasmData *d = configuration.get();
+	std::string v = d->toString();
+	LOG_INFO("configuration -> "+v);
 }
 
 void ExampleRootContext::onTick() { LOG_TRACE("onTick"); }
