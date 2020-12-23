@@ -76,10 +76,11 @@ spec:
               configuration: 
                 "@type": "type.googleapis.com/google.protobuf.StringValue"
                 value: |
-                  {}
+                  {"a":"b"}
               vm_config:
                 runtime: envoy.wasm.runtime.v8
-                configuration: {}
+                configuration: |
+                  {"c":"d"}
                 code:
                   local:
                     filename: /home/istio-proxy/ctgw.wasm

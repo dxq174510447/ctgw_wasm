@@ -33,12 +33,12 @@ static RegisterContextFactory register_ExampleContext(CONTEXT_FACTORY(ExampleCon
                                                       "my_root_id");
 
 bool ExampleRootContext::onStart(size_t) {
-  LOG_TRACE("onStart");
+	LOG_INFO("onStart");
   return true;
 }
 
 bool ExampleRootContext::onConfigure(size_t) {
-  LOG_TRACE("onConfigure");
+	LOG_INFO("onConfigure");
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
