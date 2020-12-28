@@ -46,7 +46,7 @@ bool ExampleRootContext::onConfigure(size_t st) {
         for (const auto& property : properties) {
         	std::optional<WasmDataPtr> p = getProperty({property});
           if (p.has_value()) {
-        	  LOG_INFO(property+"-->"+p.value().get()->toString());
+        	  LOG_INFO(std::string(property)+"-->"+p.value().get()->toString());
           }
         }
   return true;
