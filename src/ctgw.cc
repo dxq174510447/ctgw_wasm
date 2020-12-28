@@ -12,7 +12,6 @@ public:
   bool onConfigure(size_t) override;
   void onTick() override;
 
-  void onConfigure(std::unique_ptr<WasmData> configuration);
 };
 
 class ExampleContext : public Context {
@@ -39,13 +38,10 @@ bool ExampleRootContext::onStart(size_t) {
 
 bool ExampleRootContext::onConfigure(size_t) {
 	LOG_INFO("onConfigure");
+	auto conf = getConfiguration();
+	LOG_INFO("configuration-->"+conf->toString());
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
-}
-void ExampleRootContext::onConfigure(std::unique_ptr<WasmData> configuration){
-	WasmData *d = configuration.get();
-	std::string v = d->toString();
-	LOG_INFO("configuration -> "+v);
 }
 
 void ExampleRootContext::onTick() { LOG_TRACE("onTick"); }

@@ -76,11 +76,13 @@ spec:
               configuration: 
                 "@type": "type.googleapis.com/google.protobuf.StringValue"
                 value: |
-                  {"a":"b"}
+                  {}
               vm_config:
                 runtime: envoy.wasm.runtime.v8
-                configuration: |
-                  {"c":"d"}
+                configuration: 
+                  '@type': type.googleapis.com/google.protobuf.StringValue
+                  value: |
+                    {"redisHost":"10.9.40.193","redisPort":"6379","redisPwd":"Clt@123456"}
                 code:
                   local:
                     filename: /home/istio-proxy/ctgw.wasm
