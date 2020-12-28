@@ -38,7 +38,7 @@ bool ExampleRootContext::onStart(size_t) {
 
 bool ExampleRootContext::onConfigure(size_t st) {
 	LOG_INFO("onConfigure");
-	LOG_INFO("configuration-->"+to_string(st));
+	LOG_INFO("configuration-->"+std::to_string(st));
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
