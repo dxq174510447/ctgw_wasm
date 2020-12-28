@@ -36,10 +36,9 @@ bool ExampleRootContext::onStart(size_t) {
   return true;
 }
 
-bool ExampleRootContext::onConfigure(size_t) {
+bool ExampleRootContext::onConfigure(size_t st) {
 	LOG_INFO("onConfigure");
-	auto conf = getConfiguration();
-	LOG_INFO("configuration-->"+conf->toString());
+	LOG_INFO("configuration-->"+st);
   proxy_set_tick_period_milliseconds(1000); // 1 sec
   return true;
 }
