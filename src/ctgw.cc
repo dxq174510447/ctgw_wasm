@@ -40,15 +40,6 @@ bool ExampleRootContext::onConfigure(size_t st) {
 	LOG_INFO("onConfigure");
 	LOG_INFO(this->root_id()+ " configuration-->"+std::to_string(st));
   proxy_set_tick_period_milliseconds(1000); // 1 sec
-  const std::vector<std::string> properties = {
-            "name",
-        };
-        for (const auto& property : properties) {
-        	std::optional<WasmDataPtr> p = getProperty({property});
-          if (p.has_value()) {
-        	  LOG_INFO(std::string(property)+"-->"+p.value().get()->toString());
-          }
-        }
   return true;
 }
 
