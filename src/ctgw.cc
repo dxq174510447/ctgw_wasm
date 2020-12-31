@@ -40,8 +40,8 @@ bool ExampleRootContext::onConfigure(size_t st) {
 	LOG_INFO("onConfigure");
 	LOG_INFO(std::string{this->root_id()}+ " configuration-->" + std::to_string(st));
 
-	const char *value_ptr = nullptr;
-	auto result = proxy_get_configuration(&value_ptr,&st);
+	const char *value_ptr = NULL;
+	proxy_get_configuration(&value_ptr,&st);
 //	if (result != WasmResult::Ok) {
 //		LOG_INFO("onConfigur -> error");
 //	}
