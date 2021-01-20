@@ -40,16 +40,16 @@ bool ExampleRootContext::onConfigure(size_t st) {
 	LOG_INFO("onConfigure");
 	LOG_INFO(std::string{this->root_id()}+ " configuration-->" + std::to_string(st));
 
-//	const char *value_ptr = NULL;
-//	proxy_get_configuration(&value_ptr,&st);
-//	if (result != WasmResult::Ok) {
-//		LOG_INFO("onConfigur -> error");
-//	}
-//	else{
-//		auto buf = std::make_unique<WasmData>(value_ptr, st);
-//		std::string r2 = buf.get()->toString();
-//		LOG_INFO("onConfigur -> "+r2);
-//	}
+	const char *value_ptr = nullptr;
+	auto result = proxy_get_configuration(&value_ptr,&st);
+	if (result != WasmResult::Ok) {
+		LOG_INFO("onConfigur -> error");
+	}
+	else{
+		auto buf = std::make_unique<WasmData>(value_ptr, st);
+		std::string r2 = buf.get()->toString();
+		LOG_INFO("onConfigur -> "+r2);
+	}
 
   proxy_set_tick_period_milliseconds(1000); // 1 sec
 
